@@ -1,0 +1,43 @@
+#pragma once
+
+static const uint8_t MAC_NODE_A[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+#define PAKAI_ENKRIPSI_ESPNOW 1
+#define ESPNOW_PMK "GantiPMK16kar!!!"
+#define ESPNOW_LMK "GantiLMK16kar!!!"
+#define KANAL_TETAP 0
+
+#define AP_KAMERA_SSID "TaniVerse-CamB"
+#define AP_KAMERA_PASS "kameraB12345"
+
+#define PAKAI_KAMERA_B 1
+#define URL_KAMERA_B "http://192.168.4.10/ISAPI/Streaming/channels/101/picture"
+#define USER_KAMERA_B "admin"
+#define PASS_KAMERA_B ""
+
+#define INTERVAL_SENSOR_MS (15UL * 60UL * 1000UL)
+#define INTERVAL_FOTO_MS (10UL * 60UL * 1000UL)
+#define JAM_FOTO_MULAI 6
+#define JAM_FOTO_SELESAI 18
+#define OFFSET_ZONA_DETIK (7L * 3600L)
+#define UKURAN_GAMBAR_MAKS (200UL * 1024UL)
+
+#define PIN_RS485_RX 32
+#define PIN_RS485_TX 33
+#define PIN_RS485_DE_RE 25
+#define RS485_BAUD 4800
+#define ALAMAT_SENSOR_8IN1 1
+#define PETA_REGISTER PETA_8IN1_UMUM
+#define DUMP_REGISTER 0
+
+#define PAKAI_BATERAI 1
+#define PIN_BATERAI 34
+#define BATERAI_R1 82000.0f
+#define BATERAI_R2 10000.0f
+#define BATERAI_V_KOSONG 12.0f
+#define BATERAI_V_PENUH 16.8f
+
+#define PAKAI_AKTUATOR 1
+#define PIN_RELAY_UV 19
+#define PIN_RELAY_ULTRASONIK 23
+#define PIN_RELAY_IRIGASI 27
+#define AKTUATOR_MATI_JIKA_PUTUS_MS (30UL * 60UL * 1000UL)

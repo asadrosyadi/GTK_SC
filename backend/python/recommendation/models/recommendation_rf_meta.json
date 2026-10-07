@@ -1,0 +1,233 @@
+{
+  "name": "Random Forest per-aksi (multi-label)",
+  "version": "202610051143",
+  "trained_at": "2026-10-05T11:43:39",
+  "sklearn_version": "1.6.1",
+  "n_samples": 40000,
+  "n_train": 32000,
+  "n_test": 8000,
+  "n_estimators": 100,
+  "features": [
+    "temperature",
+    "humidity",
+    "vpd",
+    "windspeed",
+    "rainfall",
+    "light_intensity",
+    "ph",
+    "soil_moisture",
+    "ec",
+    "tds",
+    "soil_temp",
+    "nitrogen",
+    "phosphorus",
+    "potassium",
+    "pest_hawar_daun_bakteri",
+    "pest_garis_daun_bakteri",
+    "pest_hawar_malai_bakteri",
+    "pest_blas",
+    "pest_bercak_coklat",
+    "pest_pucuk_mati",
+    "pest_embun_bulu",
+    "pest_hispa",
+    "pest_normal",
+    "pest_tungro",
+    "grp_bakteri",
+    "grp_blas",
+    "grp_bercak",
+    "grp_penggerek",
+    "grp_embun_bulu",
+    "grp_hispa",
+    "grp_tungro",
+    "grp_n_sensitive",
+    "health_healthy",
+    "health_moderate",
+    "health_high",
+    "hst",
+    "fase_diketahui",
+    "fase_vegetatif",
+    "fase_reproduktif",
+    "fase_berbunga",
+    "fase_pemasakan",
+    "menjelang_panen",
+    "pest_available",
+    "health_available"
+  ],
+  "labels": [
+    "pengendalian_hispa",
+    "eradikasi_tungro",
+    "pengendalian_penggerek",
+    "pengendalian_bakteri",
+    "fungisida_blas",
+    "pengendalian_embun_bulu",
+    "perbaikan_hara_bercak",
+    "waspada_penyakit",
+    "mitigasi_panas",
+    "bilas_garam",
+    "irigasi",
+    "tunda_urea",
+    "urea_bwd",
+    "pupuk_p",
+    "pupuk_k",
+    "kapur",
+    "cegah_defisiensi_zn",
+    "proteksi_angin",
+    "pantau"
+  ],
+  "metrics": {
+    "subset_accuracy": 0.86525,
+    "hamming_loss": 0.008703947368421052,
+    "f1_micro": 0.967599735508045,
+    "f1_macro": 0.9582889527390969,
+    "precision_micro": 0.9679553138321328,
+    "recall_micro": 0.9672444183313749
+  },
+  "baseline_rules_on_noisy_sensors": {
+    "subset_accuracy": 0.86925,
+    "hamming_loss": 0.00869736842105263,
+    "f1_micro": 0.9676804224525719,
+    "f1_macro": 0.9611521408279768,
+    "precision_micro": 0.966357421875,
+    "recall_micro": 0.9690070505287897
+  },
+  "per_label": {
+    "pengendalian_hispa": {
+      "f1": 0.9831546707503829,
+      "support": 325
+    },
+    "eradikasi_tungro": {
+      "f1": 0.967741935483871,
+      "support": 308
+    },
+    "pengendalian_penggerek": {
+      "f1": 0.9843971631205674,
+      "support": 350
+    },
+    "pengendalian_bakteri": {
+      "f1": 0.9745454545454545,
+      "support": 966
+    },
+    "fungisida_blas": {
+      "f1": 0.9517601043024772,
+      "support": 389
+    },
+    "pengendalian_embun_bulu": {
+      "f1": 0.9654178674351584,
+      "support": 347
+    },
+    "perbaikan_hara_bercak": {
+      "f1": 0.9622641509433962,
+      "support": 314
+    },
+    "waspada_penyakit": {
+      "f1": 0.8985294117647059,
+      "support": 693
+    },
+    "mitigasi_panas": {
+      "f1": 0.9433040078201369,
+      "support": 1024
+    },
+    "bilas_garam": {
+      "f1": 0.9946468658262821,
+      "support": 2892
+    },
+    "irigasi": {
+      "f1": 0.9695719443011862,
+      "support": 1938
+    },
+    "tunda_urea": {
+      "f1": 0.9772203736882519,
+      "support": 1959
+    },
+    "urea_bwd": {
+      "f1": 0.9915482826829707,
+      "support": 2779
+    },
+    "pupuk_p": {
+      "f1": 0.9302544769085768,
+      "support": 1051
+    },
+    "pupuk_k": {
+      "f1": 0.9613899613899614,
+      "support": 514
+    },
+    "kapur": {
+      "f1": 0.9577006507592191,
+      "support": 1846
+    },
+    "cegah_defisiensi_zn": {
+      "f1": 0.9547008547008548,
+      "support": 1173
+    },
+    "proteksi_angin": {
+      "f1": 0.978906586310805,
+      "support": 1154
+    },
+    "pantau": {
+      "f1": 0.8604353393085787,
+      "support": 402
+    }
+  },
+  "top_features": [
+    [
+      "ph",
+      0.1105033433187352
+    ],
+    [
+      "temperature",
+      0.06911142943401
+    ],
+    [
+      "grp_n_sensitive",
+      0.06161555820831703
+    ],
+    [
+      "grp_bakteri",
+      0.05533072951368313
+    ],
+    [
+      "windspeed",
+      0.04922187099362586
+    ],
+    [
+      "soil_moisture",
+      0.038986540598213854
+    ],
+    [
+      "hst",
+      0.034950159720483535
+    ],
+    [
+      "potassium",
+      0.032592345419374384
+    ],
+    [
+      "ec",
+      0.03251524638790685
+    ],
+    [
+      "tds",
+      0.0317392441002388
+    ],
+    [
+      "pest_pucuk_mati",
+      0.02945562695684224
+    ],
+    [
+      "phosphorus",
+      0.029188401580984628
+    ],
+    [
+      "fase_vegetatif",
+      0.0279683755915766
+    ],
+    [
+      "grp_hispa",
+      0.027585227033758864
+    ],
+    [
+      "pest_embun_bulu",
+      0.02723476999461773
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+[Unit]
+Description=TaniVerse RNN / sensor forecast / recommendation service
+After=network-online.target mysql.service
+Wants=network-online.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/taniverse/backend/python/rnn
+EnvironmentFile=/etc/taniverse/taniverse.env
+ExecStart=/var/www/taniverse/backend/python/.venv/bin/python run.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

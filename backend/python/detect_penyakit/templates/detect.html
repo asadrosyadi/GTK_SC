@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deteksi Hama</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        main {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        .grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <main id="content">
+        <h2>Live Camera</h2>
+        <div class="grid">
+            {% for titik in titik_list %}
+            <div>
+                <h3>Petak {{ titik }}</h3>
+                <img src="{{ url_for('video_feed_titik', titik=titik) }}" alt="Live Camera Petak {{ titik }}">
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
