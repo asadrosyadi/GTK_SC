@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+.DS_Store
+*- Copy.env
+tempCodeRunnerFile.py
+
+.venv/
+.venv-gpu/
+backend/python/recommendation/data/
+venv/
+
+backend/laravel/vendor/
+backend/laravel/node_modules/
+
+Training_Penyakit Padi/train/
+Training_Penyakit Padi/val/
+Training_Penyakit Padi/test/
+Training_Penyakit Padi/train_images/
+Training_Penyakit Padi/*.cache
+
+backend/python/hybrid_cnn_lstm/*.h5
+backend/python/hybrid_cnn_lstm/*.keras
+backend/python/detect_penyakit/runs/
+
+backend/python/detect_penyakit/experiments/*/*/best_checkpoint.pt

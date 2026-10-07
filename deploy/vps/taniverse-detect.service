@@ -1,0 +1,16 @@
+[Unit]
+Description=TaniVerse CNN disease detection service
+After=network-online.target mysql.service
+Wants=network-online.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/taniverse/backend/python/detect_penyakit
+EnvironmentFile=/etc/taniverse/taniverse.env
+ExecStart=/var/www/taniverse/backend/python/.venv/bin/python app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

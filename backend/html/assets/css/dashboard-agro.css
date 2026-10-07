@@ -1,0 +1,711 @@
+.agro-dash {
+  --ag-green: #2e7d32;
+  --ag-green-soft: #e8f5e9;
+  --ag-text: #33435a;
+  --ag-muted: #8a96a8;
+  --ag-line: #edf0f4;
+  --ag-radius: 14px;
+}
+
+.agro-panel {
+  border: 1px solid var(--ag-line);
+  border-radius: var(--ag-radius);
+  box-shadow: 0 4px 18px rgba(51, 67, 90, 0.06);
+  overflow: hidden;
+}
+
+.agro-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ag-line);
+  border-top: 3px solid var(--ag-green);
+  background: #fff;
+}
+
+.agro-panel-head h5 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--ag-text);
+}
+
+.agro-head-ico {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  font-size: 1.1rem;
+  color: var(--ag-green);
+  background: var(--ag-green-soft);
+}
+
+.agro-live {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  margin: 0 4px;
+}
+
+.agro-live span,
+.agro-live::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #43a047;
+}
+
+.agro-live::after {
+  content: "";
+  animation: agLive 1.8s ease-out infinite;
+}
+
+@keyframes agLive {
+  from { transform: scale(1); opacity: 0.6; }
+  to { transform: scale(2.8); opacity: 0; }
+}
+
+.agro-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chip-green { color: var(--ag-green); background: var(--ag-green-soft); }
+.chip-danger { color: #d32f2f; background: #ffebee; }
+.chip-muted { color: var(--ag-muted); background: #f1f3f6; }
+
+.agro-section-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-bottom: 10px;
+}
+
+.agro-section-title h6 {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ag-text);
+}
+
+.agro-section-title h6 i {
+  color: var(--ag-green);
+  margin-right: 2px;
+  vertical-align: -2px;
+}
+
+.agro-updated {
+  font-size: 0.74rem;
+}
+
+.tone-orange { --tone: #f4511e; --tone-soft: #fff1e8; --tone-light: #ffa36c; --tone-glow: rgba(244, 81, 30, 0.25); }
+.tone-blue { --tone: #1e88e5; --tone-soft: #e8f2ff; }
+.tone-teal { --tone: #00897b; --tone-soft: #e3f5f2; --tone-light: #2ec4b0; --tone-glow: rgba(0, 137, 123, 0.25); }
+.tone-sky { --tone: #039be5; --tone-soft: #e3f5fd; }
+.tone-indigo { --tone: #5e5ce6; --tone-soft: #eeedff; }
+.tone-amber { --tone: #f9a825; --tone-soft: #fff6dc; }
+.tone-slate { --tone: #607d8b; --tone-soft: #eef2f5; }
+
+.agro-kpi-grid {
+  display: grid;
+  grid-template-columns: minmax(190px, 1.25fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.agro-kpi {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--ag-line);
+  background: linear-gradient(160deg, #fff 55%, var(--tone-soft, #e8f5e9) 140%);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.agro-kpi::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--tone, var(--ag-green));
+}
+
+.agro-kpi:hover {
+  transform: translateY(-2px);
+  border-color: transparent;
+  box-shadow: 0 10px 22px rgba(51, 67, 90, 0.1);
+}
+
+.agro-kpi-ico {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  color: var(--tone, var(--ag-green));
+  background: var(--tone-soft, var(--ag-green-soft));
+}
+
+.agro-kpi-text {
+  min-width: 0;
+}
+
+.agro-kpi-label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--ag-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agro-kpi-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 4px;
+  row-gap: 4px;
+  color: var(--ag-text);
+  line-height: 1.2;
+}
+
+.agro-kpi-value .kpi-num {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.agro-kpi-value .kpi-unit {
+  font-size: 0.76rem;
+  color: var(--ag-muted);
+  white-space: nowrap;
+}
+
+.agro-kpi-value .kpi-status {
+  flex-basis: 100%;
+  line-height: 1;
+}
+
+.agro-kpi-value .kpi-na {
+  font-size: 0.78rem;
+  color: var(--ag-muted);
+}
+
+.agro-kpi--hero {
+  grid-row: span 2;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border: 0;
+  color: #fff;
+  background: linear-gradient(140deg, var(--tone-light, #4caf50) 0%, var(--tone, #2e7d32) 100%);
+  box-shadow: 0 10px 24px var(--tone-glow, rgba(46, 125, 50, 0.25));
+}
+
+.agro-kpi--hero::before { display: none; }
+.agro-kpi--hero:hover { box-shadow: 0 14px 30px var(--tone-glow, rgba(46, 125, 50, 0.25)); }
+
+.agro-kpi--hero .agro-kpi-ico {
+  width: 46px;
+  height: 46px;
+  flex-basis: 46px;
+  font-size: 1.5rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.agro-kpi--hero .agro-kpi-label { color: rgba(255, 255, 255, 0.85); font-size: 0.82rem; }
+.agro-kpi--hero .agro-kpi-value,
+.agro-kpi--hero .agro-kpi-value .kpi-unit { color: #fff; }
+.agro-kpi--hero .agro-kpi-value .kpi-num { font-size: 2.6rem; letter-spacing: -1px; }
+.agro-kpi--hero .agro-kpi-value .kpi-unit { font-size: 1.1rem; opacity: 0.85; }
+.agro-kpi--hero .agro-kpi-value .kpi-na { color: rgba(255, 255, 255, 0.85); }
+.agro-kpi--hero .agro-skeleton { opacity: 0.5; }
+
+.agro-kpi-watermark {
+  position: absolute;
+  right: -14px;
+  bottom: -18px;
+  font-size: 7.5rem;
+  color: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.agro-dash .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 !important;
+  padding: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  background: transparent !important;
+  border-radius: 0;
+}
+
+.agro-dash .badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.agro-dash .badge.bg-success { color: #6aa86e; }
+.agro-dash .badge.bg-warning { color: #e08a00; }
+.agro-dash .badge.bg-danger { color: #e53935; }
+.agro-dash .badge.bg-secondary { color: #8a96a8; }
+.agro-dash .badge[title] { cursor: help; }
+
+.agro-dash .kpi-status .badge,
+.agro-dash .agro-soil td .badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.agro-dash .kpi-status .badge.bg-success,
+.agro-dash .agro-soil td .badge.bg-success { color: #2e7d32; background: #e8f5e9 !important; }
+.agro-dash .kpi-status .badge.bg-warning,
+.agro-dash .agro-soil td .badge.bg-warning { color: #b45f00; background: #fff1d6 !important; }
+.agro-dash .kpi-status .badge.bg-danger,
+.agro-dash .agro-soil td .badge.bg-danger { color: #c62828; background: #ffe5e5 !important; }
+.agro-dash .kpi-status .badge.bg-secondary,
+.agro-dash .agro-soil td .badge.bg-secondary { color: #607d8b; background: #eef1f5 !important; }
+
+.agro-dash .agro-kpi--hero .kpi-status .badge {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.24) !important;
+}
+
+.agro-dash .agro-kpi--hero .kpi-status .badge.bg-danger { background: #c62828 !important; }
+
+.agro-soil {
+  border: 1px solid var(--ag-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.agro-soil table thead th {
+  padding: 11px 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ag-muted);
+  background: #f7faf7;
+  border-bottom: 1px solid var(--ag-line);
+}
+
+.agro-soil table thead th i {
+  color: var(--ag-green);
+  font-size: 0.9rem;
+  vertical-align: -2px;
+}
+
+.agro-soil table td {
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--ag-line);
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.agro-soil table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.agro-soil table tbody tr:hover td {
+  background: #f9fbf9;
+}
+
+
+.agro-soil-param {
+  font-size: 0.86rem;
+  color: var(--ag-text);
+}
+
+.agro-soil .soil-ico {
+  width: 30px;
+  height: 30px;
+  display: inline-grid;
+  place-items: center;
+  margin-right: 10px;
+  border-radius: 9px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ag-green);
+  background: var(--ag-green-soft);
+  vertical-align: middle;
+}
+
+.agro-soil .soil-name {
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.agro-soil .soil-num {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--ag-text);
+}
+
+.agro-soil-param .soil-unit {
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: #f3f5f8;
+  font-size: 0.66rem;
+  color: var(--ag-muted);
+  vertical-align: middle;
+}
+
+.agro-soil td .badge {
+  margin-left: 10px !important;
+  min-width: 62px;
+  justify-content: center;
+}
+
+.agro-soil .badge-space {
+  display: inline-block;
+  width: 72px;
+}
+
+@media (max-width: 575.98px) {
+  .agro-soil td .badge { display: flex; width: max-content; margin: 3px 0 0 auto !important; min-width: 0; }
+  .agro-soil .badge-space { display: none; }
+  .agro-soil .soil-ico { display: none; }
+}
+
+.agro-status {
+  position: relative;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--ag-line);
+  border-left: 4px solid #43a047;
+  background: #fff;
+  color: var(--ag-text);
+  transition: box-shadow 0.2s ease;
+}
+
+.agro-status:hover { box-shadow: 0 8px 20px rgba(51, 67, 90, 0.08); }
+.agro-status.is-offline { border-left-color: #e53935; }
+
+.agro-status-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.agro-status-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.agro-status-name .agro-head-ico {
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+}
+
+.agro-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 10px;
+}
+
+.agro-status-item {
+  padding: 10px 12px;
+  border-radius: 11px;
+  background: #f6f8fa;
+}
+
+.agro-status-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  color: var(--ag-muted);
+  white-space: nowrap;
+}
+
+.agro-status-label i { font-size: 1rem; }
+
+.agro-status-val {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 2px 0 6px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.agro-status-val small {
+  margin-left: 2px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ag-muted);
+}
+
+.agro-signal {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+  color: #43a047;
+}
+
+.agro-signal i {
+  width: 4px;
+  border-radius: 2px;
+  background: #dde3ea;
+  transition: background-color 0.3s ease;
+}
+
+.agro-signal i:nth-child(1) { height: 25%; }
+.agro-signal i:nth-child(2) { height: 50%; }
+.agro-signal i:nth-child(3) { height: 75%; }
+.agro-signal i:nth-child(4) { height: 100%; }
+.agro-signal i.on { background: currentColor; }
+.agro-signal.is-warn { color: #f59e0b; }
+.agro-signal.is-danger { color: #e53935; }
+
+.agro-status-foot {
+  font-size: 0.72rem;
+  color: var(--ag-muted);
+}
+
+.agro-status-foot i { vertical-align: -1px; }
+
+.agro-progress {
+  height: 6px;
+  border-radius: 6px;
+  background: #e6eaef;
+}
+
+.agro-progress .progress-bar {
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.agro-cam {
+  display: flex;
+  height: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--ag-line);
+  border-left: 4px solid #cfd8dc;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.agro-cam:hover { box-shadow: 0 8px 20px rgba(51, 67, 90, 0.08); }
+.agro-cam.is-healthy { border-left-color: #43a047; }
+.agro-cam.is-sick { border-left-color: #e53935; }
+
+.agro-cam-media {
+  position: relative;
+  flex: 0 0 38%;
+  max-width: 38%;
+  min-height: 140px;
+  display: grid;
+  place-items: center;
+  background: #f4f7f4;
+  overflow: hidden;
+}
+
+.agro-cam-media[href] { cursor: zoom-in; }
+
+.agro-cam-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.agro-cam-media[href]:hover img { transform: scale(1.06); }
+
+.agro-cam-zoom {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  z-index: 1;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(15, 25, 20, 0.55);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.agro-cam-media[href]:hover .agro-cam-zoom { opacity: 1; }
+
+.agro-cam-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.74rem;
+  color: var(--ag-muted);
+  text-align: center;
+}
+
+.agro-cam-empty i { font-size: 1.5rem; }
+
+.agro-cam-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+}
+
+.agro-cam-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.agro-cam-plot {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ag-text);
+}
+
+.agro-cam-plot i { color: var(--ag-green); }
+
+.agro-cam-time {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 0.7rem;
+  color: var(--ag-muted);
+}
+
+.agro-cam-time i { vertical-align: -1px; }
+
+.agro-disease {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  color: var(--ag-text);
+}
+
+.agro-disease i { margin-top: 2px; }
+
+.agro-cam.is-sick .agro-disease { color: #d32f2f; }
+.agro-cam.is-healthy .agro-disease { color: var(--ag-green); }
+
+.agro-meter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 3px;
+  font-size: 0.72rem;
+  color: var(--ag-muted);
+}
+
+.agro-meter-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agro-meter-row b {
+  color: var(--ag-text);
+}
+
+.agro-hybrid {
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.74rem;
+  color: #3949ab;
+  background: #f1f2ff;
+}
+
+@media (max-width: 400px) {
+  .agro-cam { flex-direction: column; }
+  .agro-cam-media { flex-basis: auto; max-width: 100%; aspect-ratio: 16 / 9; min-height: 0; }
+}
+
+.agro-skeleton {
+  display: inline-block;
+  width: 60px;
+  height: 14px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #eef1f5 25%, #f7f9fb 50%, #eef1f5 75%);
+  background-size: 200% 100%;
+  animation: agLoad 1.2s linear infinite;
+}
+
+@keyframes agLoad {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@media (max-width: 575.98px) {
+  .agro-kpi-grid { gap: 8px; }
+  .agro-kpi { padding: 10px; gap: 10px; }
+  .agro-kpi-ico { width: 34px; height: 34px; flex-basis: 34px; font-size: 1.1rem; }
+  .agro-status-grid { grid-template-columns: 1fr; }
+  .agro-kpi-label { white-space: normal; }
+  .agro-soil table td, .agro-soil table thead th { padding: 7px 10px; }
+}
+
+@media (max-width: 767.98px) {
+  .agro-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .agro-kpi--hero { grid-column: 1 / -1; grid-row: auto; flex-direction: row; align-items: center; justify-content: flex-start; }
+  .agro-kpi--hero .agro-kpi-value .kpi-num { font-size: 2.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agro-live::after, .agro-skeleton { animation: none; }
+  .agro-kpi, .agro-kpi:hover { transition: none; transform: none; }
+}
