@@ -1,10 +1,10 @@
 # Smart Farming IoT System for Rice (*Oryza sativa*) — Full System Architecture, Mathematical Formulation, and Algorithms
 
-> Technical companion document for a Q1 journal manuscript.
-> Bahasa: dokumen ini ditulis dalam Bahasa Inggris agar langsung dapat dipakai untuk *manuscript* jurnal Q1. Setiap sub-sistem diberi (i) arsitektur, (ii) formulasi matematis, (iii) algoritma / *pseudocode*.
+> Technical companion document for a journal manuscript.
+> Bahasa: dokumen ini ditulis dalam Bahasa Inggris agar langsung dapat dipakai untuk *manuscript* jurnal. Setiap sub-sistem diberi (i) arsitektur, (ii) formulasi matematis, (iii) algoritma / *pseudocode*.
 > Scope: every program currently in this repository is covered — the ESP32 field nodes (`Arduino/esp32_a_gateway`, `Arduino/esp32_b_lapangan`), the computer-vision disease/pest classifier (`Training_Penyakit Padi/train.py`, `backend/python/detect_penyakit/`), the LSTM micro-climate forecaster (`backend/python/rnn/`), the **hybrid CNN–LSTM feature-fusion model and Algorithm 1** (`backend/python/hybrid_cnn_lstm/`), the Laravel ingestion/API/web tier (`backend/laravel/`, public root `backend/html/`), the offline multi-sensor recommendation engine, and the Flutter mobile client (`mobile/`).
 >
-> **October 2026 update:** (i) **multi-point monitoring**: point 1 is a full weather + soil station with a camera for plot 1; point 2 is a soil-only node with a camera for plot 2; plot 2 uses the point-1 weather; (ii) the CNN service handles several cameras; (iii) the LSTM service forecasts per plot; (iv) Layer 6 is now an **offline per-action Random Forest** whose knowledge base is referenced to **Scopus Q1/Q2 articles** and credible agricultural sources (Section 8; DOIs and Scopus links in `backend/python/recommendation/SUMBER_REFERENSI.md`); (v) a Windows GPU runtime (TensorFlow 2.10 + CUDA 11.x) is used for the live services (Section 10); (vi) the dashboard trend chart and prediction table now show **statistical forecasts of all 15 sensor inputs** with per-sensor model selection (§7.8, references in README §10), replacing the LSTM health-confidence chart.
+> **October 2026 update:** (i) **multi-point monitoring**: point 1 is a full weather + soil station with a camera for plot 1; point 2 is a soil-only node with a camera for plot 2; plot 2 uses the point-1 weather; (ii) the CNN service handles several cameras; (iii) the LSTM service forecasts per plot; (iv) Layer 6 is now an **offline per-action Random Forest** whose knowledge base is referenced to credible agricultural sources (Section 8; `backend/python/recommendation/SUMBER_REFERENSI.md`); (v) a Windows GPU runtime (TensorFlow 2.10 + CUDA 11.x) is used for the live services (Section 10); (vi) the dashboard trend chart and prediction table now show **statistical forecasts of all 15 sensor inputs** with per-sensor model selection (§7.8), replacing the LSTM health-confidence chart.
 >
 > **2026 sync note:** the Raspberry Pi servo–LiDAR pest-deterrent node (`backend/python/servo_lidar.py`) was removed from the repository and is no longer part of the implemented system; Section 4 below is kept only as a historical record and is marked accordingly. Several exploratory scripts that produced figures/tables not matching the manuscript's final numbers (`Training_Penyakit Padi/{compute_real_confusion_matrix,plot_real_confusion_matrix,make_figure4a_augmentation,find_misclassified_example}.py`, `backend/python/rnn/{generate_real_figure9,generate_real_figure9_800,compute_real_table5,compute_real_table5_blocked_cv}.py`, `backend/python/detect_penyakit/{detailed_analysis,generate_confusion_matrix,generate_paper_figures}.py`) were likewise removed; this document has been updated to reference only the scripts that actually reproduce the manuscript's reported numbers. The Table 7 benchmark (`benchmark_modern_models.py`) was also extended with a YOLOv11n-cls row (Section 12.1).
 >
@@ -73,7 +73,7 @@ The platform is a **five-layer** cyber-physical system for continuous, autonomou
 | 4. Vision | `Training_Penyakit Padi/{train,compare_cnn_backbones}.py`, `backend/python/detect_penyakit/app.py`, `benchmark_modern_models.py` | Python / TensorFlow-Keras + PyTorch | 10-class rice disease/pest classification from leaf images (Table 4 & Table 7 benchmarks) |
 | 4.5 Fusion | `backend/python/hybrid_cnn_lstm/**` | Python / TensorFlow-Keras | Adaptive CNN+LSTM feature fusion (Eq. 1), unified pest + health + VPD heads, Algorithm 1 |
 | 5. Forecasting | `backend/python/rnn/**`, `evaluate_lstm_microclimate_10k.py` | Python / Flask + TensorFlow-Keras | Multi-step micro-climate regression (Table 5) + 3-class plant-health forecast |
-| 6. Recommendation | `backend/python/recommendation/**` (served at `POST /recommendation`), `app/Services/MultiTitikService.php`; fallback `app/Http/Controllers/RecommendationService.php` | Python / scikit-learn (+ PHP fallback) | Offline per-action Random Forest over weather (point 1) + per-plot soil, CNN, LSTM, and growth phase; referenced knowledge base (Scopus Q1/Q2 + IRRI/Balitbangtan) |
+| 6. Recommendation | `backend/python/recommendation/**` (served at `POST /recommendation`), `app/Services/MultiTitikService.php`; fallback `app/Http/Controllers/RecommendationService.php` | Python / scikit-learn (+ PHP fallback) | Offline per-action Random Forest over weather (point 1) + per-plot soil, CNN, LSTM, and growth phase; referenced knowledge base (IRRI/Balitbangtan) |
 
 Design principles: (a) **edge pre-processing** — noisy analog channels are filtered on the microcontroller; (b) **thin cloud** — the server only authenticates, stores, and serves; (c) **model services are stateless** and pull their inputs from the same canonical REST endpoint; (d) **graceful degradation** — the health forecaster falls back from LSTM → classical model, unavailable forecasts are shown as an explicit "no forecast" message (never zero-filled values), and the CV pipeline is time-gated and self-pruning.
 
@@ -343,7 +343,7 @@ All status labels come from `SensorStatus` (§5.6). If the Flask service is unre
 
 ### 5.6 Server-side presentation and the mobile client
 
-`app/Support/SensorStatus.php` turns each weather/soil value into `{code, label, level}`. It applies the knowledge-base thresholds of §8.3, plus display-only thresholds for light, sea-level pressure, soil temperature and available N; sources are in `SUMBER_REFERENSI.md` §C.2. The same function feeds the web cards, `GET /api/v1/dashboard`, and the Flutter app, so no client keeps its own thresholds. A device counts as online when its last reading is at most `OFFLINE_AFTER_MINUTES` = 35 min old.
+`app/Support/SensorStatus.php` turns each weather/soil value into `{code, label, level}`. It applies the knowledge-base thresholds of §8.3, plus display-only thresholds for light, sea-level pressure, soil temperature and available N; these are listed in `SUMBER_REFERENSI.md` §C.2. The same function feeds the web cards, `GET /api/v1/dashboard`, and the Flutter app, so no client keeps its own thresholds. A device counts as online when its last reading is at most `OFFLINE_AFTER_MINUTES` = 35 min old.
 
 The Flutter client (`mobile/`, displayed as AgroGuard) has six screens: Beranda, Prediksi, Riwayat, Deteksi CNN, Asisten AI and Akun. They call the screen endpoints of REST API v1, so their content equals the web pages; the mapping is in `mobile/README.md`.
 
@@ -772,15 +772,15 @@ $$
 \text{damped additive Holt-Winters: } \hat y_{n+h} = \ell_n + (\phi + \phi^2 + \dots + \phi^h)\, b_n + s_{n+h-m\lceil h/m\rceil},
 $$
 
-and, for rainfall, the block-of-day climatology $\hat y_{n+h} = \overline{y}_{\text{slot}(n+h)}$ (Murphy 1988). Smoothing parameters are estimated by statsmodels (Hyndman et al. 2002; Gardner 2006).
+and, for rainfall, the block-of-day climatology $\hat y_{n+h} = \overline{y}_{\text{slot}(n+h)}$. Smoothing parameters are estimated by statsmodels.
 
-**Selection.** Rolling-origin backtest (Tashman 2000) with up to 4 origins, each with a 1-day horizon and at least 3 days of training data. The chosen model has the lowest mean absolute backtest error, which is the same as the lowest
+**Selection.** Rolling-origin backtest with up to 4 origins, each with a 1-day horizon and at least 3 days of training data. The chosen model has the lowest mean absolute backtest error, which is the same as the lowest
 
 $$
 \text{MASE} = \frac{\tfrac1h\sum_{j=1}^{h}|y_{o+j}-\hat y_{o+j}|}{\tfrac{1}{n-m}\sum_{t=m+1}^{n}|y_t - y_{t-m}|}
 $$
 
-(Hyndman & Koehler 2006), because the denominator is common to all candidates of one series. MAE and MASE of the chosen model are reported. With fewer than 24 blocks the service uses persistence and reports it in `note`. Forecasts are clipped to physical bounds.
+because the denominator is common to all candidates of one series. MAE and MASE of the chosen model are reported. With fewer than 24 blocks the service uses persistence and reports it in `note`. Forecasts are clipped to physical bounds.
 
 **Derived variables.** $\text{VPD} = e_s(T)\,(1-RH/100)$ with $e_s = 0.6108\exp\!\big(17.27T/(T+237.3)\big)$ (FAO-56, Eq. 11–19) from the forecast $T$ and $RH$; $\text{TDS} = k\,\text{EC}$ with $k$ the median measured TDS/EC ratio of the plot (at least 3 blocks with both values, accepted if $0.3 \le k \le 1$), i.e. the 8-in-1 sensor's own conversion; otherwise $k = 0.64$ (FAO-29). The chosen $k$ and its origin are returned in the `formula` field.
 
@@ -814,8 +814,6 @@ forecast_sensors(history, d, p):
     rows ← for each step: values, rainfall_24h (rolling sum of 6 blocks), status(knowledge_base)
     return {iot_id, titik, variables[method, MAE, MASE], history[last 12 blocks], forecast rows}
 ```
-
-The references with DOI, quartile and Scopus source links are listed in README §10.2 and `SUMBER_REFERENSI.md` §G.
 
 ---
 
@@ -858,24 +856,24 @@ Missing sensors are imputed with neutral (optimal) values. The label space is th
 
 ### 8.3 Knowledge base (labelling function) and its references
 
-The labelling function $g(\mathbf x)\subseteq\mathcal A$ encodes guideline rules. Every threshold is tied to a Scopus-indexed Q1/Q2 article or a credible agricultural source. The DOI, Scopus Source ID, and quartile of each reference are listed in `backend/python/recommendation/SUMBER_REFERENSI.md` and README §9.
+The labelling function $g(\mathbf x)\subseteq\mathcal A$ encodes guideline rules. Every threshold is tied to a credible agricultural source, listed in `backend/python/recommendation/SUMBER_REFERENSI.md`.
 
 | Rule | Condition | Reference |
 |---|---|---|
-| Irrigate (safe AWD) | volumetric water content $\theta_v < 35\%$; at flowering $\theta_v$ below the ponded reading (default 45 %, calibrated); never when near-harvest | Mahmud et al. 2026 (Sensors, Q1); Carrijo et al. 2017 (FCR, Q1); Bouman & Tuong 2001 (AWM, Q1); IRRI |
-| Heat mitigation | $T_a \ge 35$ °C, or $T_a\ge 33$ °C at flowering | Jagadish et al. 2007 (J. Exp. Bot., Q1) |
-| Blast-favourable weather | RH ≥ 90 % and 20 ≤ $T_a$ ≤ 28 °C | Savary et al. 2012 (Crop Prot., Q1); UC IPM |
-| Blast control | CNN blast, or blast weather at flowering → flood, split N, triazole/strobilurin | Asibi et al. 2019 (Agronomy, Q1); IRRI; UC IPM |
-| Bacterial blight control | CNN bacterial classes → balanced N, drainage except at flowering, sanitation (no bactericide); weather alert at 25–34 °C, RH > 70 %, rain ≥ 50 mm/24 h | Mew 1987 (Annu. Rev. Phytopathol., Q1); IRRI; BMKG (heavy rain) |
-| Tungro | CNN tungro → roguing, resistant varieties, synchronous planting (insecticide often ineffective) | Azzam & Chancellor 2002 (Plant Dis., Q1); IRRI |
-| Brown spot | CNN brown spot → improve soil fertility (K, Si), keep flooded | Barnwal et al. 2013 (EJPP, Q2); IRRI |
-| Salinity | EC ≥ 3,000 µS cm⁻¹ or TDS ≥ 1,920 ppm | Maas & Hoffman 1977; Zeng & Shannon 2000 (Crop Sci., Q2); Zheng et al. 2023 (EJA, Q1); FAO 29 |
-| Soil pH | pH ≤ 5.5 → lime; pH > 7.5 → Zn-deficiency prevention | Balai Penelitian Tanah; Alloway 2009 (EGH, Q1); Impa & Johnson-Beebout 2012 (Plant Soil, Q1) |
-| P, K (basal, vegetative/unknown phase) | P < 10 mg kg⁻¹ (< 6 low) → SP-36 per PUTS; K < 78 mg kg⁻¹ (0.2 cmol kg⁻¹) → KCl | Dobermann & Fairhurst 2000; Dobermann et al. 2002 (FCR, Q1); PUTS |
-| Nitrogen | no sensor-N threshold; vegetative–reproductive phase and no N-sensitive pest → urea by leaf color chart (scale 4 inbred, 5 hybrid); N-sensitive pest detected → delay urea | Shukla et al. 2004 (Agron. J., Q2); Yang et al. 2003 (Q2); Islam et al. 2007 (FCR, Q1); BB Padi; Mew 1987 (Q1) |
-| Lodging | wind ≥ 8 m s⁻¹ in reproductive–ripening phase | Hitaka 1969 (JIRCAS; JARQ is Scopus Q4 → institutional data, not Q1/Q2); Berry et al. 2004 (Adv. Agron., Q1) |
+| Irrigate (safe AWD) | volumetric water content $\theta_v < 35\%$; at flowering $\theta_v$ below the ponded reading (default 45 %, calibrated); never when near-harvest | IRRI |
+| Heat mitigation | $T_a \ge 35$ °C, or $T_a\ge 33$ °C at flowering | — |
+| Blast-favourable weather | RH ≥ 90 % and 20 ≤ $T_a$ ≤ 28 °C | UC IPM |
+| Blast control | CNN blast, or blast weather at flowering → flood, split N, triazole/strobilurin | IRRI; UC IPM |
+| Bacterial blight control | CNN bacterial classes → balanced N, drainage except at flowering, sanitation (no bactericide); weather alert at 25–34 °C, RH > 70 %, rain ≥ 50 mm/24 h | IRRI; BMKG (heavy rain) |
+| Tungro | CNN tungro → roguing, resistant varieties, synchronous planting (insecticide often ineffective) | IRRI |
+| Brown spot | CNN brown spot → improve soil fertility (K, Si), keep flooded | IRRI |
+| Salinity | EC ≥ 3,000 µS cm⁻¹ or TDS ≥ 1,920 ppm | FAO 29 |
+| Soil pH | pH ≤ 5.5 → lime; pH > 7.5 → Zn-deficiency prevention | Balai Penelitian Tanah; IRRI |
+| P, K (basal, vegetative/unknown phase) | P < 10 mg kg⁻¹ (< 6 low) → SP-36 per PUTS; K < 78 mg kg⁻¹ (0.2 cmol kg⁻¹) → KCl | Dobermann & Fairhurst 2000; PUTS |
+| Nitrogen | no sensor-N threshold; vegetative–reproductive phase and no N-sensitive pest → urea by leaf color chart (scale 4 inbred, 5 hybrid); N-sensitive pest detected → delay urea | BB Padi; IRRI |
+| Lodging | wind ≥ 8 m s⁻¹ in reproductive–ripening phase | Hitaka 1969 (JIRCAS) |
 
-Three choices keep the rules evidence-based. VPD and the LSTM health probabilities are **displayed but not used as triggers**, because no rice-specific VPD threshold exists in Q1/Q2 journals and the LSTM health model was trained on synthetic data. Sensor N is not used, because no literature maps low-cost RS485 N readings to fertilizer decisions. The saturated VWC used during flowering is a field calibration. P/K readings still require laboratory/PUTS calibration. Rainfall is the 24-hour total computed by Laravel; the firmware sends per-interval values after a comma-operator bug fix.
+Three choices keep the rules evidence-based. VPD and the LSTM health probabilities are **displayed but not used as triggers**, because no rice-specific VPD threshold is used and the LSTM health model was trained on synthetic data. Sensor N is not used, because no literature maps low-cost RS485 N readings to fertilizer decisions. The saturated VWC used during flowering is a field calibration. P/K readings still require laboratory/PUTS calibration. Rainfall is the 24-hour total computed by Laravel; the firmware sends per-interval values after a comma-operator bug fix.
 
 ### 8.4 Random Forest model
 
@@ -892,7 +890,7 @@ with $B=100$ trees, `max_features=0.5`, `max_depth=18`, and `min_samples_leaf=4`
 
 ### 8.5 Per-plot output, aggregation, and actuation
 
-Recommendations are sorted by severity (danger > warning > success) and then by $\hat p_a$. Each one carries its reasons (`knowledge_base.explain`) and references (`sources_for`, with DOI and Scopus quartile). Actions shared by both plots are merged in a summary list that keeps a per-plot reason list. The actuation for plot $p$ is the first active action in the priority list (hispa → blast → borer → heat → salinity → irrigation → …). It is mapped to the four ESP32 codes (`activate_ultrasonic_repeller_and_uv_lamp`, `recommend_selective_insecticide_spraying`, `irrigation_notification`, `continue_monitoring`). Each node executes only the actuation for its own `titik`.
+Recommendations are sorted by severity (danger > warning > success) and then by $\hat p_a$. Each one carries its reasons (`knowledge_base.explain`) and references (`sources_for`). Actions shared by both plots are merged in a summary list that keeps a per-plot reason list. The actuation for plot $p$ is the first active action in the priority list (hispa → blast → borer → heat → salinity → irrigation → …). It is mapped to the four ESP32 codes (`activate_ultrasonic_repeller_and_uv_lamp`, `recommend_selective_insecticide_spraying`, `irrigation_notification`, `continue_monitoring`). Each node executes only the actuation for its own `titik`.
 
 ```
 recommend(snapshot):
@@ -1050,7 +1048,7 @@ On 8,000 held-out synthetic samples the Random Forest reaches F1-micro 0.968, F1
 
 ## 12. Experimental Results Summary
 
-### 12.1 Validation comparison of available classification checkpoints — Table 7 (`benchmark_modern_models.py`, `experiments/scopus_q1_comparison/` + `experiments/yolov11_addition/`)
+### 12.1 Validation comparison of available classification checkpoints — Table 7 (`benchmark_modern_models.py`, baseline-comparison and `yolov11_addition/` subfolders of `experiments/`)
 
 Eight checkpoints evaluated on the same 2,084-image validation partition (image-level metrics; validation also guided checkpoint selection, so these are **not** independent-test numbers) — manuscript **Table 7** / Section 4.4 ("Comparative Evaluation of Available Classification Checkpoints"), *not* the Table 4 numbers (Table 4 is the separate deployment-oriented Keras backbone comparison, §12.3).
 
@@ -1144,9 +1142,9 @@ Expert-scenario checks (`test_expert_scenarios.py`): 15/15 guideline cases pass 
 | `backend/laravel/app/Http/Controllers/RecommendationService.php` | Layer 6 fallback: PHP rules with the same referenced thresholds (`THRESHOLDS`); `getActuation` = Algorithm 1 step 15 (spraying only for blast/stem borer) |
 | `backend/laravel/app/Services/MultiTitikService.php`, `config/monitoring.php` | Layer 3/6: multi-point configuration (labels, planting dates, weather point), snapshot assembly, call to `POST /recommendation`, PHP fallback |
 | `backend/laravel/Modules/Dashboard/database/migrations/2026_10_05_000000_add_titik_to_sensor_tables.php` | Layer 3: `titik` column + nullable decimal(10,2) sensor columns |
-| `backend/python/recommendation/knowledge_base.py` | Layer 6: referenced thresholds, 19 actions, labelling rules, explanations, `SOURCES` (DOI, Scopus Source ID, quartile) |
+| `backend/python/recommendation/knowledge_base.py` | Layer 6: referenced thresholds, 19 actions, labelling rules, explanations, `SOURCES` |
 | `backend/python/recommendation/{features,generate_dataset,train,engine}.py` | Layer 6: 44-D features, synthetic training data, per-action Random Forest training, inference + per-plot aggregation |
-| `backend/python/recommendation/test_expert_scenarios.py`, `SUMBER_REFERENSI.md` | Layer 6: 15 guideline scenario checks; full reference list with verified claims and Scopus links |
+| `backend/python/recommendation/test_expert_scenarios.py`, `SUMBER_REFERENSI.md` | Layer 6: 15 guideline scenario checks; reference list |
 | `backend/python/gpu_env.py`, `convert_keras3_to_tf210.py`, `setup_gpu_env.bat`, `run_rnn.bat`, `run_detect.bat` | Deployment: Windows GPU runtime, Keras 3 → TF 2.10 model conversion, service launchers |
 | `backend/laravel/Modules/Dashboard/app/Http/Controllers/HybridInferenceController.php` | Layer 3: `POST/GET /api/inference` — ingest & serve fused CNN–LSTM output |
 | `backend/laravel/Modules/Dashboard/{database/migrations/*_create_hybrid_inferences_table,app/Models/HybridInference}.php` | Layer 3: `hybrid_inferences` schema + model |

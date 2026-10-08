@@ -1,7 +1,7 @@
 # YOLOv11 addition — provenance for Section 4.4 / Table 6 (reviewer comment 4)
 
 Added in response to reviewer comment 4 ("newer benchmark model not added"). This
-document has the same structure as `experiments/scopus_q1_comparison/yolov8_baseline_provenance.md`
+document has the same structure as `yolov8_baseline_provenance.md` in the baseline-comparison folder of `experiments/`
 so the two YOLO rows in Table 6 can be checked against each other line by line.
 
 ## Variant and checkpoint

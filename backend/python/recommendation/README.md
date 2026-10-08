@@ -22,7 +22,7 @@ Jika server Python tidak bisa dihubungi, Laravel memakai aturan PHP (`Recommenda
 ## Model
 
 - 44 fitur per petak (`features.py`): 6 cuaca, 8 tanah, 10 kelas CNN × confidence, 8 kelompok hama/penyakit, 3 probabilitas LSTM, 7 fase tumbuh (dari tanggal tanam), 2 flag ketersediaan.
-- 19 aksi (multi-label, `knowledge_base.py`) yang **ambang dan isinya dirujuk ke 20 artikel jurnal Scopus Q1/Q2 (DOI & tautan Scopus) serta sumber data pertanian kredibel (IRRI, Balitbangtan PUTS/BWD, BMKG, Balai Penelitian Tanah, UC IPM, CABI, FAO)** — lihat [SUMBER_REFERENSI.md](SUMBER_REFERENSI.md). Setiap rekomendasi membawa alasan (`explain`) dan daftar sumber (`sources_for`). Dashboard web dan aplikasi mobile menampilkan alasannya dengan bahasa petani; daftar sumber tidak ditampilkan di layar, tetapi tetap ada di keluaran model dan di dokumen ini.
+- 19 aksi (multi-label, `knowledge_base.py`) yang **ambang dan isinya dirujuk ke sumber data pertanian kredibel (IRRI, Balitbangtan PUTS/BWD, BMKG, Balai Penelitian Tanah, UC IPM, CABI, FAO)** — lihat [SUMBER_REFERENSI.md](SUMBER_REFERENSI.md). Setiap rekomendasi membawa alasan (`explain`) dan daftar sumber (`sources_for`). Dashboard web dan aplikasi mobile menampilkan alasannya dengan bahasa petani; daftar sumber tidak ditampilkan di layar, tetapi tetap ada di keluaran model dan di dokumen ini.
 - Satu Random Forest per aksi (100 pohon). Ambang 0,5.
 - Data latih **sintetis**: kondisi lapangan acak → label dari basis pengetahuan agronomi; fitur yang dilihat model diberi derau sensor, sensor hilang, kamera/LSTM tidak tersedia.
 

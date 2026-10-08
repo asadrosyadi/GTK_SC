@@ -223,7 +223,7 @@ python benchmark_modern_models.py --dataset-root "/absolute/path/to/Training_Pen
 
 The actual historical epoch counts for several stored non-YOLO checkpoints were not recorded in the supplied documentation. These commands therefore initiate new comparisons rather than guarantee reproduction of existing numbers. Keep YOLO and timm preprocessing descriptions separate.
 
-Historical outputs are under `experiments/scopus_q1_comparison/` and `experiments/yolov11_addition/`. See their per-model metrics and provenance documents. A function selecting the newest checkpoint is not sufficient evidence that the same checkpoint produced an older metrics file.
+Historical outputs are in the baseline-comparison and `yolov11_addition/` subfolders of `experiments/`. See their per-model metrics and provenance documents. A function selecting the newest checkpoint is not sufficient evidence that the same checkpoint produced an older metrics file.
 
 ### 4.3 Figure 8: descriptive validation-subset evaluation
 
@@ -349,7 +349,7 @@ Table and figure numbers refer to the manuscript version discussed during this r
 | Table 4 | `table4_fold_results_<Model>.json`; optional combined comparison outputs | Reviewed EfficientNet-B0 result differs from manuscript values; other rows require their own fold records. |
 | Table 5 / Figure 9 | `backend/python/rnn/figure9_2025dates_predictions.csv` | Recalculate metrics from the same stored targets/predictions; retain synthetic-data and scaling limitations. |
 | Table 6 | `backend/python/hybrid_cnn_lstm/evaluate_hybrid.py`; expected `table6_hybrid_comparison.{md,json}` | Script availability alone does not verify reported ablation scores or latency. |
-| Table 7 | Per-model metrics under `experiments/scopus_q1_comparison/` and `experiments/yolov11_addition/` | Link each metric to the exact evaluated checkpoint and full validation partition. |
+| Table 7 | Per-model metrics in the baseline-comparison and `yolov11_addition/` subfolders of `experiments/` | Link each metric to the exact evaluated checkpoint and full validation partition. |
 | Figure 4 | `make_figure4_combined.py` and `figure4b_real_forecast_entry.json` | Experimental augmentation and system reporting example; no generative reconstruction of data. |
 | Figure 8 | `real_50perclass_confusion_matrix.json` and its plotted figure | Historical 500-image validation result is 43.40%; supplied 89.20% figure requires reconciliation. |
 | Section 3.8 field actuation | Independent event-level field records | `actuation_eval.py` alone does not substantiate 116 successful physical events out of 120. |
@@ -403,7 +403,7 @@ In the reviewed fusion evaluator, latency is measured within each fold and the s
 - **Fallback values:** when the forecasting service is unavailable, the dashboard now shows an explicit "no forecast" message instead of the former zero-filled rows. Failed sensors are sent as `null` by the firmware and are never stored as 0.
 - **Operational claims:** local code, MQTT/REST messages, and rule agreement do not demonstrate continuous operation or successful physical intervention. Field event logs and downtime records are separate evidence.
 - **Recommendation model training data:** the Random Forest is trained on synthetic samples labeled by the referenced knowledge base, with sensor noise, missing sensors, and missing camera/LSTM outputs. It therefore reproduces the expert rules (F1-micro 0.968 vs 0.968 for the rules on noisy readings). It cannot outperform them until it is retrained on field-labeled actions and outcomes.
-- **Sensor calibration:** low-cost RS485 NPK sensors estimate nutrients from conductivity. Their P and K readings in mg/kg are not equivalent to laboratory Olsen-P or exchangeable K. Sensor N is not used for decisions; urea follows the growth phase and the leaf color chart. In-situ EC differs from ECe. The soil probe reports volumetric water content (VWC). Irrigation uses VWC 35 % (Mahmud et al. 2026), and the saturated VWC used during flowering (default 45 %) must be set to the sensor reading of a ponded field.
+- **Sensor calibration:** low-cost RS485 NPK sensors estimate nutrients from conductivity. Their P and K readings in mg/kg are not equivalent to laboratory Olsen-P or exchangeable K. Sensor N is not used for decisions; urea follows the growth phase and the leaf color chart. In-situ EC differs from ECe. The soil probe reports volumetric water content (VWC). Irrigation uses VWC 35 %, and the saturated VWC used during flowering (default 45 %) must be set to the sensor reading of a ponded field.
 - **Historical components:** the LiDAR node, its Laravel routes and the legacy firmware were removed in October 2026 (§1). Removed scripts must be documented through version history, not represented as active or removed merely because their scores differ from manuscript values.
 - **Unauthenticated read endpoints:** `GET /api/sensor?iot_id=…` (used by the forecasting service) and `GET /api/inference/{iot_id}` (polled by ESP32 A) need only the device identifier. Protecting them requires changing the Python service and the firmware together.
 

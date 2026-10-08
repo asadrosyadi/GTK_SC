@@ -1,4 +1,4 @@
-# Figure Summary for Scopus Q1
+# Figure Summary
 
 ## Generated Figures
 
